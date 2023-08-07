@@ -17,7 +17,7 @@ const emoji = (num) => {
     }
 }
 
-const genCaptcha = async (client) => {
+const genCaptcha = async () => {
     try {
         const folders = fs.readdirSync(__dirname + "/../utils/captcha-images").filter((folder) => folder !== ".DS_Store");
         const randomFolders = [];
@@ -56,6 +56,12 @@ const genCaptcha = async (client) => {
                 ctx.drawImage(images[i * 2 + j], 250 * j, 250 * i, 250, 250);
             }
         }
+
+        // now grab a single dotmap from utils/dotmaps and draw it on top, makes it harder for bots to detect
+        const dotmaps = fs.readdirSync(__dirname + "/../utils/dotmaps").filter((file) => file !== ".DS_Store");
+        const randomDotmap = dotmaps[Math.floor(Math.random() * dotmaps.length)];
+        const dotmap = await loadImage(__dirname + `/../utils/dotmaps/${randomDotmap}`);
+        ctx.drawImage(dotmap, 0, 0, 500, 500);
 
         const grid = await loadImage(__dirname.replace("events", "utils") + "/captcha_grid.png");
         ctx.drawImage(grid, 0, 0, 500, 500);
