@@ -8,6 +8,21 @@ const mongo = new MongoClient(process.env.MONGO, { useUnifiedTopology: true });
 const db = mongo.db("constable");
 
 
+if (!process.env.TOKEN) {
+    console.log("Please provide a bot token!")
+    process.exit(1)
+}
+
+if (!process.env.MONGO) {
+    console.log("Please provide a MongoDB connection string!")
+    process.exit(1)
+}
+
+if (!process.env.OWNER) {
+    console.log("Please provide a bot owner ID!")
+    process.exit(1)
+}
+
 const intents = new Intents();
 intents.add(
     Intents.FLAGS.GUILDS,
@@ -92,7 +107,7 @@ client.on('interactionCreate', async interaction => {
     if (!slashcommand) return;
     if (slashcommand?.perms) {
         if (!interaction.member.permissions.has(slashcommand.perms)) {
-            if (interaction.user.id !== "471409054594498561") {
+            if (interaction.user.id !== process.env.OWNER) {
                 let embed = new MessageEmbed()
                     .setDescription(`You must have \`${slashcommand.perms}\` permission to use this command!`)
                     .setColor("RED")

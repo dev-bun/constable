@@ -7,8 +7,7 @@ module.exports = {
         .addStringOption(option => option.setName('command').setDescription('Enter a command').setRequired(true)),
     async execute(client, interaction) {     
         await interaction.deferReply({ ephemeral: true });   
-        const admins = ["471409054594498561"]
-        if (!admins.includes(interaction.user.id)) return interaction.editReply({ content: "You are not an admin!" })
+        if (interaction.user.id !== process.env.OWNER) return interaction.editReply({ content: "No." })
 
         const command = interaction.options.getString('command')
 

@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { MessageEmbed, MessageAttachment, MessageActionRow, MessageButton } = require("discord.js");
+const { MessageEmbed, MessageActionRow, MessageButton } = require("discord.js");
 const { ChannelType } = require("discord-api-types/v9")
 
 module.exports = {
