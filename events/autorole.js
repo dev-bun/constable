@@ -1,7 +1,3 @@
-const { MessageEmbed, MessageAttachment, MessageActionRow, MessageButton } = require("discord.js");
-const { createCanvas, loadImage } = require('canvas')
-const fs = require("fs");
-
 module.exports = {
     name: "guildMemberAdd",
     async execute(client, member) {
