@@ -36,6 +36,7 @@ module.exports = {
             // sort guilds by total
             guilds.sort((a, b) => b.total - a.total)
 
+            const top = guilds.slice(0, guilds.length > 3 ? 3 : guilds.length)
             await interaction.editReply({
                 content: `
 **__Constable Stats__**
@@ -44,9 +45,8 @@ module.exports = {
 <:constable_error:1091386274239238324> Total Failed: ${totalFail}
 
 __Top 3 Guilds__
-1. ${guilds[0].guildName} (${guilds[0].guild}) - ${guilds[0].total}
-2. ${guilds[1].guildName} (${guilds[1].guild}) - ${guilds[1].total}
-3. ${guilds[2].guildName} (${guilds[2].guild}) - ${guilds[2].total}
+${top.map((g, i) => `${i + 1}. ${g.guildName} (${g.guild}) - ${g.total}`).join("\n")}
+${guilds.length > 3 ? `... and ${guilds.length - 3} more` : ""}
                 `.trim()
             })
         }
@@ -56,4 +56,3 @@ __Top 3 Guilds__
         }
     }
 };
-
