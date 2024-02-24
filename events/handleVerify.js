@@ -172,6 +172,9 @@ module.exports = {
                     await i.update({ embeds: [tempEmbed], files: [], components: [] });
                     try {
                         await interaction.member.roles.add(role, "User passed verification");
+                        if (config?.autorole?.removeAfterVerify) {
+                            await interaction.member.roles.remove(config?.autorole?.role, "User passed verification");
+                        }
                     }
                     catch (err) {
                         console.log(err);

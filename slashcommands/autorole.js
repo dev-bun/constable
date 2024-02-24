@@ -11,6 +11,11 @@ module.exports = {
         )
         .addSubcommand(subcommand =>
             subcommand
+                .setName('remove-after-verify')
+                .setDescription('Enable/disable removing the autorole after verification!')
+        )
+        .addSubcommand(subcommand =>
+            subcommand
                 .setName('role')
                 .setDescription('Set the role to be given to on join!')
                 .addRoleOption(option =>
@@ -35,7 +40,18 @@ module.exports = {
             else {
                 await client.db.collection("config").updateOne({ guild: interaction.guild.id }, { $set: { "autorole.enabled": !config.autorole.enabled } });
             }
-            return interaction.editReply({ content: `<:constable_success:1091386376286654619> Verification has been ${config.autorole.enabled ? "disabled" : "enabled"}!` });
+            return interaction.editReply({ content: `<:constable_success:1091386376286654619> Autorole has been ${config.autorole.enabled ? "disabled" : "enabled"}!` });
+        }
+
+        else if (subcommand === 'remove-after-verify') {
+            const config = await client.db.collection("config").findOne({ guild: interaction.guild.id });
+            if (!config) {
+                await client.db.collection("config").insertOne({ guild: interaction.guild.id, autorole: { removeAfterVerify: true } });
+            }
+            else {
+                await client.db.collection("config").updateOne({ guild: interaction.guild.id }, { $set: { "autorole.removeAfterVerify": !config.autorole.removeAfterVerify } });
+            }
+            return interaction.editReply({ content: `<:constable_success:1091386376286654619> Autorole will ${config.autorole.removeAfterVerify ? "not be removed" : "be removed"} after verification!` });
         }
 
         else if (subcommand === 'role') {
@@ -47,7 +63,7 @@ module.exports = {
             else {
                 await client.db.collection("config").updateOne({ guild: interaction.guild.id }, { $set: { "autorole.role": role.id } });
             }
-            return interaction.editReply({ content: `<:constable_success:1091386376286654619> Verification role has been set to <@&${role.id}>!`, allowedMentions: { parse: [] } });
+            return interaction.editReply({ content: `<:constable_success:1091386376286654619> Autorole has been set to <@&${role.id}>!`, allowedMentions: { parse: [] } });
         }
 
     }
