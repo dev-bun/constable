@@ -33,9 +33,9 @@ module.exports = {
                 await client.db.collection("config").insertOne({ guild: interaction.guild.id, autorole: { enabled: true } });
             }
             else {
-                await client.db.collection("config").updateOne({ guild: interaction.guild.id }, { $set: { "autorole.enabled": !config.verification.enabled } });
+                await client.db.collection("config").updateOne({ guild: interaction.guild.id }, { $set: { "autorole.enabled": !config.autorole.enabled } });
             }
-            return interaction.editReply({ content: `<:constable_success:1091386376286654619> Verification has been ${config.verification.enabled ? "disabled" : "enabled"}!` });
+            return interaction.editReply({ content: `<:constable_success:1091386376286654619> Verification has been ${config.autorole.enabled ? "disabled" : "enabled"}!` });
         }
 
         else if (subcommand === 'role') {
